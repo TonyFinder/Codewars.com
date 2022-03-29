@@ -1,18 +1,30 @@
 // 6kyu level
-// https://www.codewars.com/kata/545cedaa9943f7fe7b000048
+// https://www.codewars.com/kata/5839edaa6754d6fec10000a2
 
 // Description
-// A pangram is a sentence that contains every single letter of the alphabet at least once. For example, the sentence "The quick brown fox jumps over the lazy dog" is a pangram, because it uses the letters A-Z at least once (case is irrelevant).
-// Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
+// #Find the missing letter
+//
+// Write a method that takes an array of consecutive (increasing) letters as input and that returns the missing letter in the array.
+//
+// You will always get an valid array. And it will be always exactly one letter be missing. The length of the array will always be at least 2.
+// The array will always contain letters in only one case.
+//
+// Example:
+//
+// ['a','b','c','d','f'] -> 'e' ['O','Q','R','S'] -> 'P'
+//
+// ["a","b","c","d","f"] -> "e"
+// ["O","Q","R","S"] -> "P"
+// (Use the English alphabet with 26 letters!)
+//
+// Have fun coding it and please don't forget to vote and rank this kata! :-)
+//
+// I have also created other katas. Take a look if you enjoyed this kata!
 
-function isPangram(string){
-    let array = string.toLowerCase().split("").sort()
-    let newArray = []
-    for (let i = 1; i<array.length; i++) {
-        if (array[i] !== array[i-1] && array[i].charCodeAt() > 96 && array[i].charCodeAt() < 123) newArray.push(array[i])
+function findMissingLetter(array) {
+    for (let i = 1; i < array.length; i++) {
+        if (array[i].charCodeAt(0) - array[i - 1].charCodeAt(0) > 1) return String.fromCharCode(array[i].charCodeAt(0) - 1)
     }
-    return newArray.length === 26
 }
 
-
-console.log(isPangram("This is not a pangram."))
+console.log(findMissingLetter(['a', 'b', 'c', 'd', 'f']))
