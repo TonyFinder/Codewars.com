@@ -1,30 +1,35 @@
 // 6kyu level
-// https://www.codewars.com/kata/5839edaa6754d6fec10000a2
+// https://www.codewars.com/kata/578aa45ee9fd15ff4600090d
 
 // Description
-// #Find the missing letter
-//
-// Write a method that takes an array of consecutive (increasing) letters as input and that returns the missing letter in the array.
-//
-// You will always get an valid array. And it will be always exactly one letter be missing. The length of the array will always be at least 2.
-// The array will always contain letters in only one case.
-//
-// Example:
-//
-// ['a','b','c','d','f'] -> 'e' ['O','Q','R','S'] -> 'P'
-//
-// ["a","b","c","d","f"] -> "e"
-// ["O","Q","R","S"] -> "P"
-// (Use the English alphabet with 26 letters!)
-//
-// Have fun coding it and please don't forget to vote and rank this kata! :-)
-//
-// I have also created other katas. Take a look if you enjoyed this kata!
+// #Sort the odd
 
-function findMissingLetter(array) {
-    for (let i = 1; i < array.length; i++) {
-        if (array[i].charCodeAt(0) - array[i - 1].charCodeAt(0) > 1) return String.fromCharCode(array[i].charCodeAt(0) - 1)
+// Task
+// You will be given an array of numbers. You have to sort the odd numbers in ascending order while leaving the even numbers at their original positions.
+//
+//     Examples
+//     [7, 1]  =>  [1, 7]
+//     [5, 8, 6, 3, 4]  =>  [3, 8, 6, 5, 4]
+//     [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]  =>  [1, 8, 3, 6, 5, 4, 7, 2, 9, 0]
+
+function sortArray(array) {
+    let oddArray = array.filter(f => f%2 !== 0)
+    let sortedArray = []
+    for (let i = 0; i < oddArray.length; i++) {
+        sortedArray.push(oddArray.reduce((acc, el) => acc < el ? acc : el))
+        delete oddArray[oddArray.indexOf(oddArray.reduce((acc, el) => acc < el ? acc : el))]
     }
+    let finalArray = []
+    let order = 0
+    for (let i = 0; i < array.length; i++) {
+        if (array[i]%2 !== 0) {
+            finalArray.push(sortedArray[order])
+            order++
+        } else {
+            finalArray.push(array[i])
+        }
+    }
+    return finalArray
 }
 
-console.log(findMissingLetter(['a', 'b', 'c', 'd', 'f']))
+console.log(sortArray([5, 3, 2, 8, 1, 4]))
