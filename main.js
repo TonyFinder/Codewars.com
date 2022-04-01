@@ -1,28 +1,46 @@
 // 6kyu level
-// https://www.codewars.com/kata/515de9ae9dcfc28eb6000001
+// https://www.codewars.com/kata/576757b1df89ecf5bd00073b
 
 // Description
-// #Split Strings
+// #Build Tower
 
 // Task
-// Complete the solution so that it splits the string into pairs of two characters. If the string contains an odd number of characters then it should replace the missing second character of the final pair with an underscore ('_').
+// Build Tower
+// Build a pyramid-shaped tower given a positive integer number of floors. A tower block is represented with "*" character.
 //
-//     Examples:
+//     For example, a tower with 3 floors looks like this:
 //
-// * 'abc' =>  ['ab', 'c_']
-// * 'abcdef' => ['ab', 'cd', 'ef']
+// [
+//     "  *  ",
+//     " *** ",
+//     "*****"
+// ]
+// And a tower with 6 floors looks like this:
+//
+// [
+//     "     *     ",
+//     "    ***    ",
+//     "   *****   ",
+//     "  *******  ",
+//     " ********* ",
+//     "***********"
+// ]
 
-function solution(str) {
+function towerBuilder(nFloors) {
     let arrayFinal = []
-    let count = str.length
-    let temp = 0
-    while (count >= 2) {
-        arrayFinal.push(str.substr(temp, 2))
-        temp += 2
-        count -= 2
+    let spaceNum = 1
+    let stars = 3
+    for (let i = 0; i < nFloors; i++) {
+        if (i === 0) {
+            arrayFinal.push(`${" ".repeat(nFloors - spaceNum)}${"*".repeat(1)}${" ".repeat(nFloors - spaceNum)}`)
+            spaceNum ++
+        } else {
+            arrayFinal.push(`${" ".repeat(nFloors - spaceNum)}${"*".repeat(stars)}${" ".repeat(nFloors - spaceNum)}`)
+            stars += 2
+            spaceNum ++
+        }
     }
-    if (count === 1) arrayFinal.push(`${str.substr(temp, 1)}_`)
     return arrayFinal
 }
 
-console.log(solution(''))
+console.log(towerBuilder(3))
