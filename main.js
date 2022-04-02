@@ -1,46 +1,29 @@
 // 6kyu level
-// https://www.codewars.com/kata/576757b1df89ecf5bd00073b
+// https://www.codewars.com/kata/57eb8fcdf670e99d9b000272/train/javascript
 
 // Description
-// #Build Tower
+// #Highest Scoring Word
 
 // Task
-// Build Tower
-// Build a pyramid-shaped tower given a positive integer number of floors. A tower block is represented with "*" character.
+// Given a string of words, you need to find the highest scoring word.
 //
-//     For example, a tower with 3 floors looks like this:
+//     Each letter of a word scores points according to its position in the alphabet: a = 1, b = 2, c = 3 etc.
 //
-// [
-//     "  *  ",
-//     " *** ",
-//     "*****"
-// ]
-// And a tower with 6 floors looks like this:
+//     You need to return the highest scoring word as a string.
 //
-// [
-//     "     *     ",
-//     "    ***    ",
-//     "   *****   ",
-//     "  *******  ",
-//     " ********* ",
-//     "***********"
+//     If two words score the same, return the word that appears earliest in the original string.
+//
+//     All letters will be lowercase and all inputs will be valid.
 // ]
 
-function towerBuilder(nFloors) {
-    let arrayFinal = []
-    let spaceNum = 1
-    let stars = 3
-    for (let i = 0; i < nFloors; i++) {
-        if (i === 0) {
-            arrayFinal.push(`${" ".repeat(nFloors - spaceNum)}${"*".repeat(1)}${" ".repeat(nFloors - spaceNum)}`)
-            spaceNum ++
-        } else {
-            arrayFinal.push(`${" ".repeat(nFloors - spaceNum)}${"*".repeat(stars)}${" ".repeat(nFloors - spaceNum)}`)
-            stars += 2
-            spaceNum ++
-        }
-    }
-    return arrayFinal
+function high(str){
+    let arrayStrings = str.split(" ")
+    let arrayNumbers = []
+    for (let i = 0; i < arrayStrings.length; i++) arrayNumbers.push(arrayStrings[i].split('').reduce((acc, el) => acc = acc + el.charCodeAt(0) - 96, 0))
+    return arrayStrings[arrayNumbers.indexOf(arrayNumbers.reduce((acc, el) => acc > el ? acc : acc = el, 0))]
 }
 
-console.log(towerBuilder(3))
+console.log(high("take me to semynak"))
+
+
+// 97 - 122
