@@ -1,29 +1,51 @@
 // 6kyu level
-// https://www.codewars.com/kata/57eb8fcdf670e99d9b000272/train/javascript
+// https://www.codewars.com/kata/56a5d994ac971f1ac500003e/train/javascript
 
 // Description
-// #Highest Scoring Word
+// #Consecutive strings
 
-// Task
-// Given a string of words, you need to find the highest scoring word.
+// // Task
+// You are given an array(list) strarr of strings and an integer k. Your task is to return the first longest string consisting of k consecutive strings taken in the array.
 //
-//     Each letter of a word scores points according to its position in the alphabet: a = 1, b = 2, c = 3 etc.
+//     Examples:
+// strarr = ["tree", "foling", "trashy", "blue", "abcdef", "uvwxyz"], k = 2
 //
-//     You need to return the highest scoring word as a string.
+// Concatenate the consecutive strings of strarr by 2, we get:
 //
-//     If two words score the same, return the word that appears earliest in the original string.
+//     treefoling   (length 10)  concatenation of strarr[0] and strarr[1]
+// folingtrashy ("      12)  concatenation of strarr[1] and strarr[2]
+// trashyblue   ("      10)  concatenation of strarr[2] and strarr[3]
+// blueabcdef   ("      10)  concatenation of strarr[3] and strarr[4]
+// abcdefuvwxyz ("      12)  concatenation of strarr[4] and strarr[5]
 //
-//     All letters will be lowercase and all inputs will be valid.
-// ]
+// Two strings are the longest: "folingtrashy" and "abcdefuvwxyz".
+//     The first that came is "folingtrashy" so
+// longest_consec(strarr, 2) should return "folingtrashy".
+//
+//     In the same way:
+//     longest_consec(["zone", "abigail", "theta", "form", "libe", "zas", "theta", "abigail"], 2) --> "abigailtheta"
+// n being the length of the string array, if n = 0 or k > n or k <= 0 return "" (return Nothing in Elm).
+//
+// Note
+// consecutive strings : follow one after another without an interruption
 
-function high(str){
-    let arrayStrings = str.split(" ")
-    let arrayNumbers = []
-    for (let i = 0; i < arrayStrings.length; i++) arrayNumbers.push(arrayStrings[i].split('').reduce((acc, el) => acc = acc + el.charCodeAt(0) - 96, 0))
-    return arrayStrings[arrayNumbers.indexOf(arrayNumbers.reduce((acc, el) => acc > el ? acc : acc = el, 0))]
+function longestConsec(strarr, k) {
+    if (k < 0 || k > strarr.length || strarr.length === 0) return ''
+    let arrayBig = []
+    let temp = strarr.length - k + 1
+
+    for (let i = 0; i < temp; i++) {
+        let arrayTemp = []
+        let aTemp = i
+        for (let j = 0; j < k; j++) {
+            arrayTemp.push(strarr[aTemp])
+            aTemp++
+        }
+        arrayBig.push(arrayTemp.join(""))
+        arrayTemp = []
+    }
+
+    return arrayBig.find(f => f.length === arrayBig.reduce((acc, el) => el.length > acc ? acc = el.length : acc, 0))
 }
 
-console.log(high("take me to semynak"))
-
-
-// 97 - 122
+console.log(longestConsec(['zone', 'abigail', 'theta', 'form', 'libe', 'zas'], 3))
