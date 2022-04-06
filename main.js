@@ -1,51 +1,39 @@
-// 6kyu level
-// https://www.codewars.com/kata/56a5d994ac971f1ac500003e/train/javascript
+// 5kyu level
+// https://www.codewars.com/kata/525c65e51bf619685c000059/train/javascript
 
 // Description
-// #Consecutive strings
+// # Pete, the baker
 
 // // Task
-// You are given an array(list) strarr of strings and an integer k. Your task is to return the first longest string consisting of k consecutive strings taken in the array.
+// Pete likes to bake some cakes. He has some recipes and ingredients. Unfortunately he is not good in maths. Can you help him to find out, how many cakes he could bake considering his recipes?
 //
-//     Examples:
-// strarr = ["tree", "foling", "trashy", "blue", "abcdef", "uvwxyz"], k = 2
+//     Write a function cakes(), which takes the recipe (object) and the available ingredients (also an object) and returns the maximum number of cakes Pete can bake (integer). For simplicity there are no units for the amounts (e.g. 1 lb of flour or 200 g of sugar are simply 1 or 200). Ingredients that are not present in the objects, can be considered as 0.
 //
-// Concatenate the consecutive strings of strarr by 2, we get:
+// Examples:
 //
-//     treefoling   (length 10)  concatenation of strarr[0] and strarr[1]
-// folingtrashy ("      12)  concatenation of strarr[1] and strarr[2]
-// trashyblue   ("      10)  concatenation of strarr[2] and strarr[3]
-// blueabcdef   ("      10)  concatenation of strarr[3] and strarr[4]
-// abcdefuvwxyz ("      12)  concatenation of strarr[4] and strarr[5]
-//
-// Two strings are the longest: "folingtrashy" and "abcdefuvwxyz".
-//     The first that came is "folingtrashy" so
-// longest_consec(strarr, 2) should return "folingtrashy".
-//
-//     In the same way:
-//     longest_consec(["zone", "abigail", "theta", "form", "libe", "zas", "theta", "abigail"], 2) --> "abigailtheta"
-// n being the length of the string array, if n = 0 or k > n or k <= 0 return "" (return Nothing in Elm).
-//
-// Note
-// consecutive strings : follow one after another without an interruption
+// // must return 2
+//     cakes({flour: 500, sugar: 200, eggs: 1}, {flour: 1200, sugar: 1200, eggs: 5, milk: 200});
+// // must return 0
+// cakes({apples: 3, flour: 300, sugar: 150, milk: 100, oil: 100}, {sugar: 500, flour: 2000, milk: 2000});
 
-function longestConsec(strarr, k) {
-    if (k < 0 || k > strarr.length || strarr.length === 0) return ''
-    let arrayBig = []
-    let temp = strarr.length - k + 1
-
-    for (let i = 0; i < temp; i++) {
-        let arrayTemp = []
-        let aTemp = i
-        for (let j = 0; j < k; j++) {
-            arrayTemp.push(strarr[aTemp])
-            aTemp++
+function cakes(recipe, available) {
+    let recipeUnits = Object.keys(recipe)
+    let availableUnits = Object.keys(available)
+    let indicator = 1
+    for (let i = 0; i < recipeUnits.length; i++) {
+        if (availableUnits.indexOf(recipeUnits[i]) < 0) {
+            indicator = 0
+            break
         }
-        arrayBig.push(arrayTemp.join(""))
-        arrayTemp = []
     }
+    if (indicator === 0) return 0
 
-    return arrayBig.find(f => f.length === arrayBig.reduce((acc, el) => el.length > acc ? acc = el.length : acc, 0))
+    let recipeCount = []
+    for (let i = 0; i < recipeUnits.length; i++) {
+        let temp = recipeUnits[i]
+        recipeCount.push((Math.floor(available[`${temp}`] / recipe[`${temp}`]) < 0) ? 0 : Math.floor(available[`${temp}`] / recipe[`${temp}`]))
+    }
+    return Math.min(...recipeCount)
 }
 
-console.log(longestConsec(['zone', 'abigail', 'theta', 'form', 'libe', 'zas'], 3))
+console.log(cakes({flour: 500, sugar: 200, eggs: 1}, {flour: 1200, sugar: 1200, milk: 200, eggs: 1}))
