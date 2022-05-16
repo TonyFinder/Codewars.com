@@ -28,41 +28,59 @@ console.log(domainName("http://google.com"))*/
 // =>'1-3, 5, 6, 8-10, 12, 15'
 
 
-function intervals(arr) {
-    arr.sort((a, b) => a < b ? -1 : 1)
-    let tempVar = 1
-    let tempArr = []
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i + 1] === arr[i] + 1) {
-            tempVar++
-        } else {
-            tempArr.push(tempVar)
-            tempVar = 1
-        }
-    }
+// function intervals(arr) {
+//     arr.sort((a, b) => a < b ? -1 : 1)
+//     let tempVar = 1
+//     let tempArr = []
+//     for (let i = 0; i < arr.length; i++) {
+//         if (arr[i + 1] === arr[i] + 1) {
+//             tempVar++
+//         } else {
+//             tempArr.push(tempVar)
+//             tempVar = 1
+//         }
+//     }
+//
+//     let numberArr = []
+//     for (let i = 0; i < tempArr.length; i++) {
+//         if (tempArr[i] > 2) {
+//             numberArr.push(tempArr[i])
+//         } else {
+//             for (let j = 0; j < tempArr[i]; j++) {
+//                 numberArr.push(1)
+//             }
+//         }
+//     }
+//
+//     let finalArr = []
+//     for (let i = 0; i < numberArr.length; i++) {
+//         if (numberArr[i] > 2) {
+//             finalArr.push(`${arr[0]}-${arr[numberArr[i]-1]}`)
+//             arr.splice(0, numberArr[i])
+//         } else {
+//             finalArr.push(arr[0])
+//             arr.splice(0, numberArr[i])
+//         }
+//     }
+//     return finalArr.join(', ')
+// }
+//
+// console.log(intervals([9, 2, 6, 5, 3, 8, 1, 10, 12, 15]))
 
-    let numberArr = []
-    for (let i = 0; i < tempArr.length; i++) {
-        if (tempArr[i] > 2) {
-            numberArr.push(tempArr[i])
-        } else {
-            for (let j = 0; j < tempArr[i]; j++) {
-                numberArr.push(1)
-            }
-        }
-    }
-
-    let finalArr = []
-    for (let i = 0; i < numberArr.length; i++) {
-        if (numberArr[i] > 2) {
-            finalArr.push(`${arr[0]}-${arr[numberArr[i]-1]}`)
-            arr.splice(0, numberArr[i])
-        } else {
-            finalArr.push(arr[0])
-            arr.splice(0, numberArr[i])
-        }
-    }
-    return finalArr.join(', ')
+let arr = [9, 6, 5, 3, 8, 1, 10, 12, 15, 4]
+const getRes = (arr) => {
+    debugger
+    const sortedArr = arr.sort((a,b) => a-b)
+    let consecutiveArr = []
+    let res = ''
+    sortedArr.forEach((e, i) =>{e + 1 === sortedArr[i+1] && consecutiveArr.push(e, sortedArr[i+1])})
+    const duplicates = consecutiveArr.filter((item, index) => consecutiveArr.indexOf(item) !== index)
+    sortedArr.forEach((el, index) => {
+        if (duplicates.includes(el) && duplicates.includes(sortedArr[index+1])) return
+        else if (duplicates.includes(sortedArr[index+1]))  res+=`${el}`
+        else  if (duplicates.includes(el)) res+='-'
+        else res+=`${el}, `
+    })
+    return res.trim().slice(0, -1)
 }
-
-console.log(intervals([9, 2, 6, 5, 3, 8, 1, 10, 12, 15]))
+console.log(getRes(arr))
