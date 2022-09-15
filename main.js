@@ -1,86 +1,52 @@
-// 5kyu level
-// https://www.codewars.com/kata/514a024011ea4fb54200004b/train/javascript
+// 6kyu level
+// https://www.codewars.com/kata/583203e6eb35d7980400002a/train/javascript
 
 // Description
-// # Extract the domain name from a URL
+// # Count the smiley faces!
 
 // // Task
-// Write a function that when given a URL as a string, parses out just the domain name and returns it as a string. For example:
+// Given an array (arr) as an argument complete the function countSmileys that should return the total number of smiling faces.
 //
-// * url = "http://github.com/carbonfive/raygun" -> domain name = "github"
-// * url = "http://www.zombie-bites.com"         -> domain name = "zombie-bites"
-// * url = "https://www.cnet.com"                -> domain name = cnet"
+//     Rules for a smiling face:
+//
+//     Each smiley face must contain a valid pair of eyes. Eyes can be marked as : or ;
+// A smiley face can have a nose but it does not have to. Valid characters for a nose are - or ~
+//     Every smiling face must have a smiling mouth that should be marked with either ) or D
+// No additional characters are allowed except for those mentioned.
+//
+//     Valid smiley face examples: :) :D ;-D :~)
+// Invalid smiley faces: ;( :> :} :]
+//
+// Example
+// countSmileys([':)', ';(', ';}', ':-D']);       // should return 2;
+// countSmileys([';D', ':-(', ':-)', ';~)']);     // should return 3;
+// countSmileys([';]', ':[', ';*', ':$', ';-D']); // should return 1;
+// Note
+// In case of an empty array return 0. You will not be tested with invalid input (input will always be an array). Order of the face (eyes, nose, mouth) elements will always be the same.
 
-/*function domainName(url){
-    let num = url.indexOf('.')
+// #1 Solution
+/*
+function countSmileys(arr) {
+    if (arr.length === 0) return 0
+    let counter = 0
 
-    return num
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].length === 2) {
+            if (/^[:,;][),D]$/.test(arr[i])) counter++
+        }
+        if (arr[i].length === 3) {
+            if (/^[:,;][-,~][),D]$/.test(arr[i])) counter++
+        }
+    }
+    return counter
 }
 
-console.log(domainName("http://google.com"))*/
+console.log(countSmileys([':D',':~)',';~D',':)']))
+*/
 
-
-//Task from someone's interview!!!!!!!!!
-// Дан массив чисел, нужно вернуть строку интервалов из подряд идущих чисел.
-// Если подряд идут три и более числа с инкрементом 1, то они связываются "-"
-
-// const arr = [9, 2, 6, 5, 3, 8, 1, 10, 12, 15];
-// =>'1-3, 5, 6, 8-10, 12, 15'
-
-
-// function intervals(arr) {
-//     arr.sort((a, b) => a < b ? -1 : 1)
-//     let tempVar = 1
-//     let tempArr = []
-//     for (let i = 0; i < arr.length; i++) {
-//         if (arr[i + 1] === arr[i] + 1) {
-//             tempVar++
-//         } else {
-//             tempArr.push(tempVar)
-//             tempVar = 1
-//         }
-//     }
-//
-//     let numberArr = []
-//     for (let i = 0; i < tempArr.length; i++) {
-//         if (tempArr[i] > 2) {
-//             numberArr.push(tempArr[i])
-//         } else {
-//             for (let j = 0; j < tempArr[i]; j++) {
-//                 numberArr.push(1)
-//             }
-//         }
-//     }
-//
-//     let finalArr = []
-//     for (let i = 0; i < numberArr.length; i++) {
-//         if (numberArr[i] > 2) {
-//             finalArr.push(`${arr[0]}-${arr[numberArr[i]-1]}`)
-//             arr.splice(0, numberArr[i])
-//         } else {
-//             finalArr.push(arr[0])
-//             arr.splice(0, numberArr[i])
-//         }
-//     }
-//     return finalArr.join(', ')
-// }
-//
-// console.log(intervals([9, 2, 6, 5, 3, 8, 1, 10, 12, 15]))
-
-let arr = [9, 6, 5, 3, 8, 1, 10, 12, 15, 4]
-const getRes = (arr) => {
-    debugger
-    const sortedArr = arr.sort((a,b) => a-b)
-    let consecutiveArr = []
-    let res = ''
-    sortedArr.forEach((e, i) =>{e + 1 === sortedArr[i+1] && consecutiveArr.push(e, sortedArr[i+1])})
-    const duplicates = consecutiveArr.filter((item, index) => consecutiveArr.indexOf(item) !== index)
-    sortedArr.forEach((el, index) => {
-        if (duplicates.includes(el) && duplicates.includes(sortedArr[index+1])) return
-        else if (duplicates.includes(sortedArr[index+1]))  res+=`${el}`
-        else  if (duplicates.includes(el)) res+='-'
-        else res+=`${el}, `
-    })
-    return res.trim().slice(0, -1)
+// #2 Solution
+function countSmileys(arr) {
+    return arr.filter(item => /^[:;][-~]?[)D]$/.test(item)).length
 }
-console.log(getRes(arr))
+
+console.log(countSmileys([':D',':~)',';~D']))
